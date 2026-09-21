@@ -1,14 +1,18 @@
 #!/bin/bash
 
-# Dynamisch die Region und das aktuelle Datum für den Snapshot-Namen setzen
-REGION="us-east-1"
+# Lädt die Variablen aus der .env-Datei im selben Ordner
+if [ -f .env ]; then
+    export $(cat .env | grep -v '#' | xargs)
+fi
+
+REGION="$AWS_REGION"
 BACKUP_NAME="calospro-db-backup-$(date +%Y-%m-%d-%H-%M)"
 
 echo "🚀 Starte automatisiertes AWS RDS Datenbank-Backup..."
 
 # 1. AWS RDS Snapshot-Befehl abfeuern
 aws rds create-db-snapshot \
-    --db-instance-identifier database-1 \
+       --db-instance-identifier "$AWS_DB_INSTANCE" \
     --db-snapshot-identifier "$BACKUP_NAME" \
     --region "$REGION"
 

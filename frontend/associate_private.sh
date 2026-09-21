@@ -1,5 +1,12 @@
-MY_PRIV_RTB="rtb-003a347b9a06f5026"
-MY_VPC="vpc-07f17cd18abe97321"
+# Lädt die Variablen aus der .env-Datei im selben Ordner
+if [ -f .env ]; then
+    export $(cat .env | grep -v '#' | xargs)
+fi
+
+# Nutzt die Variablen aus der .env
+MY_PRIV_RTB="$AWS_PRIV_RTB"
+MY_VPC="$AWS_VPC_ID"
+
 
 SUB_APP1=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$MY_VPC" "Name=tag:Name,Values=Private-App-Subnet-1" --query "Subnets[0].SubnetId" --output text --region us-east-1)
 aws ec2 associate-route-table --subnet-id $SUB_APP1 --route-table-id $MY_PRIV_RTB --region us-east-1

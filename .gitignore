@@ -23,3 +23,8 @@ frontend/.vite/
 .idea/
 *.swp
 *.swo
+
+# Geheimnisse und temporäre Dateien
+.env
+**/.env
+awscliv2.zip

@@ -1,6 +1,14 @@
-SG_LB="sg-0fb9b5d841112ea34"
-SG_APP="sg-0cf7500279c5eed1d"
-SG_DB="sg-057458999e8a747e4"
+#!/bin/bash
+
+# Lädt die Variablen aus der .env-Datei im selben Ordner
+if [ -f .env ]; then
+    export $(cat .env | grep -v '#' | xargs)
+fi
+
+SG_LB="$AWS_SG_LB"
+SG_APP="$AWS_SG_APP"
+SG_DB="$AWS_SG_DB"
+
 
 
 # CALOSPRO-22: Load Balancer Regel (Port 80 von überall)

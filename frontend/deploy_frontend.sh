@@ -1,5 +1,15 @@
-MY_VPC="vpc-0c1b08061e28d14fb"
-SG_APP="sg-0753aee9cf2d9bcfb"
+#!/bin/bash
+
+# Lädt die Variablen aus der .env-Datei im selben Ordner
+if [ -f .env ]; then
+    export $(cat .env | grep -v '#' | xargs)
+fi
+
+# Nutzt die Variablen aus der .env statt harter IDs
+MY_VPC="$AWS_DEPLOY_VPC"
+SG_APP="$AWS_DEPLOY_SG_APP"
+
+
 AMI_ID=$(aws ec2 describe-images --owners amazon --filters "Name=name,Values=al2023-ami-2023*-kernel-6.1-x86_64" --query "Images[0].ImageId" --output text --region us-east-1)
 
 # Holt automatisch die ID vom Private-App-Subnet-1
